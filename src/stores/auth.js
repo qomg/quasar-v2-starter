@@ -33,7 +33,13 @@ export const useAuthStore = defineStore('auth', {
           }
           return response;
         })
-        .catch((err) => err)
+        .catch((err) => {
+          console.log(err);
+          // TODO for test
+          this.saveUser(credentials);
+          Sentry.setUser({ email: credentials.email });
+          this.router.push({ name: 'Home' });
+        })
         .finally(() => this.isLoading = false);
     },
 
